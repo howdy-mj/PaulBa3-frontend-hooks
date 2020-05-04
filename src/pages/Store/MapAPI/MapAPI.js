@@ -22,25 +22,12 @@ class MapAPI extends Component {
     });
   }
 
-  showInfo = (e, map) => {
-    this.setState({ isOpen: true });
-    console.log("showinfo");
-    const infoWindow = new window.google.maps.InfoWindow({
-      content: '<div id="infoWindow">컨텐트</div>',
-      position: { lat: e.latitude, lng: e.longitude },
-    });
-    console.log(infoWindow);
-  };
-
-  closeInfo = () => {
-    this.setState({ isOpen: false });
-  };
-
   render() {
-    const { branches } = this.props.mapData;
-    const { currentLat, currentLng, isOpen } = this.state;
+    const { mapData } = this.props;
+    console.log(mapData);
+    const { currentLat, currentLng } = this.state;
     return (
-      <div className='MapAPI'>
+      <div className="MapAPI">
         {currentLat ? (
           <Map
             google={this.props.google}
@@ -48,8 +35,8 @@ class MapAPI extends Component {
             mapTypeControl={false}
             initialCenter={{ lat: currentLat, lng: currentLng }}
           >
-            {branches ? (
-              branches.map((branch, index) => {
+            {mapData.branches ? (
+              mapData.branches.map((branch, index) => {
                 return (
                   <Marker
                     key={index}
@@ -59,13 +46,7 @@ class MapAPI extends Component {
                         "https://www.baristapaulbassett.co.kr/images/store/mapIcon01.png",
                     }}
                     onClick={this.showInfo}
-                  >
-                    {isOpen && (
-                      <InfoWindow onCloseClick={this.closeInfo}>
-                        <div>yes</div>
-                      </InfoWindow>
-                    )}
-                  </Marker>
+                  ></Marker>
                 );
               })
             ) : (
